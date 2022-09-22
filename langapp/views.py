@@ -17,24 +17,17 @@ def translate(request):
 
 
 def real_time(request):
-    try:
-        result = ''
-        if request.method == "POST":
-            Text = request.POST['Text']   #FIX THIS!!!!!!!
-            Lang2 = request.POST['Lang2']
-            # print(Text,Lang1,Lang2)
-            result = GoogleTranslator(source="auto", target=Lang2).translate(Text) 
-            # print(result)	
+    if request.method == "POST":
+        Text = request.POST['Text']   #FIX THIS!!!!!!!
+        Lang2 = request.POST['Lang2']
+        print(Text,Lang2)
+        result = GoogleTranslator(source="auto", target=Lang2).translate(Text) 
+      
 	
-        # context = {"result":result}
-
-    except requests.exceptions.RequestException as error:
-        result = "Please Try Again..."
-
-        # context = {"result": result}
 
 
-    return JsonResponse({"result": result})
+
+        return JsonResponse({"result": result})
 
 
       
