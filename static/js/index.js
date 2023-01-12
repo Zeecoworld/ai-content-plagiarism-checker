@@ -12,7 +12,7 @@ click_to_record.addEventListener('click',function(){
             .join('')
 
         document.getElementById("input_text").innerHTML = transcript;
-        // console.log(transcript);
+        document.write(transcript);
     });
     
     if (speech == true) {

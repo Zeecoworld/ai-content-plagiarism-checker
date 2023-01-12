@@ -2,12 +2,13 @@ from django.shortcuts import render
 from bs4 import BeautifulSoup
 from django.http import JsonResponse
 import requests
-from deep_translator import GoogleTranslator, LingueeTranslator
+import json
+# from deep_translator import GoogleTranslator, LingueeTranslator
 # from .forms import TForm
 
 
 
-# translated = LingueeTranslator(source='en', target='de').translate("coding is sweet!!!")  # output -> Weiter so, du bist großartig
+# req to endpoint here --->  POST https://bb6fnfihh4.execute-api.eu-central-1.amazonaws.com/production/textDetector
 
 
 def translate(request):
@@ -18,16 +19,45 @@ def translate(request):
 
 def real_time(request):
     if request.method == "POST":
-        Text = request.POST['Text']   #FIX THIS!!!!!!!
-        Lang2 = request.POST['Lang2']
-        print(Text,Lang2)
-        result = GoogleTranslator(source="auto", target=Lang2).translate(Text) 
-      
-	
+        pasted_text = request.POST["text"]
+        payload = {"text":pasted_text}
+        url = "https://bb6fnfihh4.execute-api.eu-central-1.amazonaws.com/production/textDetector"
+        r = requests.post(url,json=payload)
+        result = r.json()
+        final_result = result["dataToreturn"]
+        print(final_result["fake_probability"], final_result["real_probability"])
+
+        depth_value = 0.5
+        max_value = ""
+
+        if final_result["real_probability"] > depth_value:
+            max_value = str(final_result["real_probability"] * 100) +"Humans"
+            # print("Human"; max_value)
+        else:
+            max_value = str(final_result["fake_probability"] * 100) +" Robots"
+            # print("Robots"; max_value)
+            # print("my name is isaac")
+
+        # print(max_value)  context here....
+        return render(request,"index.html",context)
 
 
 
-        return JsonResponse({"result": result})
+
+# result = requests.post("https://bb6fnfihh4.execute-api.eu-central-1.amazonaws.com/production/textDetector",text="I LOVE CODING AND SOFTWARE")
+
+# import requests
+# import json
+
+# url = "http://192.168.7.2:8000/api/login"
+
+
+
+
+
+
+
+
 
 
       
