@@ -8,8 +8,7 @@ import json
 
 
 
-# req to endpoint here --->  POST https://bb6fnfihh4.execute-api.eu-central-1.amazonaws.com/production/textDetector
-
+# req to endpoint here --->  
 
 # def translate(request):
 
