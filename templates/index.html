@@ -11,79 +11,22 @@
 <div class="row">
     <div class="col-md-1 col-lg-3 col-xl-3 col-sm-1 col-1"></div>
     <div class="col-md-10 col-lg-6 col-xl-6 col-sm-10 col-10">
-        <h1>Real Time Speech2Text Translator</h1>
+        <h1>A.I Content Plagiarism Checker</h1>
         <br><br>
-        <form id="post-form" method="POST">
-             {% csrf_token %}
-        <div class="row">
-            <div class="form-group col-xl-5 col-lg-5">
-                <label for="lang2">Choose your desired Language:</label>
-                <select class="form-control" id="lang2" name="lang2">
-                    <option value="zh-CN" selected>Chinese(Simplified)</option>
-                    <option value="cs" selected>Czech</option>
-                    <option value="da" selected>Danish</option>
-                    <option value="nl" selected>Dutch</option>
-                    <option value="en" selected>English</option>
-                    <option value="et" selected>Estonian</option>
-                    <option value="fi" selected>Finnish</option>
-                    <option value="fr" selected>French</option>
-                    <option value="de" selected>German</option>
-                    <option value="el" selected>Greek</option>
-                    <option value="hu" selected>Hungarian</option>
-                    <option value="id" selected>Indonesian</option>
-                    <option value="it" selected>Italian</option>
-                    <option value="ja" selected>Japanese</option>
-                    <option value="lv" selected>Latvian</option>
-                    <option value="lt" selected>Lithuanian</option>
-                    <option value="pl" selected>Polish</option>
-                    <option value="pt" selected>Portuguese</option>
-                    <option value="pt" selected>Portuguese(Brazilian)</option>
-                    <option value="ro" selected>Romanian</option>
-                    <option value="ru" selected>Russian</option>
-                    <option value="sk" selected>Slovak</option>
-                    <option value="sl" selected>Slovenian</option>
-                    <option value="es" selected>Spanish</option>
-                    <option value="sv" selected>Swedish</option>
-                    <option value="tr" selected>Turkish</option>
-                        
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="hidden" name="inputtext" class="form-control" id="input_text" autofocus="true"/><br/>    
-            </div>
-        </div>
-       </form><br/>
-        <div class="col-xl-2 col-lg-4 butn"><button id="click_to_record" class="btn btn-dark">Record To Translate</button></div> <br/>   
-        <div class="form-group">
-            
+        <form id="post-form" method="POST" action="">
+             {% csrf_token %}    
             <textarea name="text" class="form-control" id="text" autofocus="true"></textarea>
+        <div class="col-xl-2 col-lg-4 butn">
+        <button type="submit" class="container btn btn-dark">Check</button></div> <br/>   
+    </form>
+    {% if request.method == "POST" %}
+         <div class="alert alert-primary" role="alert">
+            {{max_value}}
         </div>
+    {% endif %}
     </div>
     <div class="col-md-1 col-lg-3 col-xl-3 col-sm-1 col-1"></div>
 </div>
-
-<script>
-    $(document).on('submit','#post-form',function(e){  
-       
-         e.preventDefault();
-
-          $.ajax({
-              type: "POST",
-              url: "{% url 'lang' %}",
-              data:{
-                Text:$('#input_text').val(),
-                Lang2: $('#lang2').val(),
-                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-              },
-              success: function(response){
-
-                  $("#text").text(response.result);
-
-              },
-          });
-  
-       });
-</script>
 
 {% endblock %} 
 

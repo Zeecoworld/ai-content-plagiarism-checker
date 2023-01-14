@@ -11,17 +11,17 @@ import json
 # req to endpoint here --->  POST https://bb6fnfihh4.execute-api.eu-central-1.amazonaws.com/production/textDetector
 
 
-def translate(request):
+# def translate(request):
 
 
-    return render(request, "index.html")
+#     return render(request, "index.html")
 
 
 def real_time(request):
     if request.method == "POST":
         pasted_text = request.POST["text"]
         payload = {"text":pasted_text}
-        url = "https://bb6fnfihh4.execute-api.eu-central-1.amazonaws.com/production/textDetector"
+        url = "API URL HERE....."
         r = requests.post(url,json=payload)
         result = r.json()
         final_result = result["dataToreturn"]
@@ -31,25 +31,18 @@ def real_time(request):
         max_value = ""
 
         if final_result["real_probability"] > depth_value:
-            max_value = str(final_result["real_probability"] * 100) +"Humans"
+            max_value =  "Humans"
             # print("Human"; max_value)
         else:
-            max_value = str(final_result["fake_probability"] * 100) +" Robots"
+            max_value = "Robots"
             # print("Robots"; max_value)
             # print("my name is isaac")
-
-        # print(max_value)  context here....
-        return render(request,"index.html",context)
-
+    else:
+        return render(request,"index.html")
 
 
-
-# result = requests.post("https://bb6fnfihh4.execute-api.eu-central-1.amazonaws.com/production/textDetector",text="I LOVE CODING AND SOFTWARE")
-
-# import requests
-# import json
-
-# url = "http://192.168.7.2:8000/api/login"
+    context = {"max_value":max_value}
+    return render(request,"index.html",context)
 
 
 
